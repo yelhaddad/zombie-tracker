@@ -1,0 +1,22 @@
+[
+  {
+    "zombie_id": "3adefa3f-456f-43a6-a465-9be413122806",
+    "longitude": -21.89278,
+    "latitude": -105.72408
+  },
+  {
+    "zombie_id": "6b06e416-195b-42a7-8350-52888b31e44b",
+    "longitude": 8.30389,
+    "latitude": -90.14157
+  },
+  {
+    "zombie_id": "8a98c7df-8869-4ac6-bf46-6188c347cc4f",
+    "longitude": 78.91407,
+    "latitude": -79.35307
+  },
+  {
+    "zombie_id": "999d730f-793e-49e7-bc80-6aeadcf6278b",
+    "longitude": 79.19932,
+    "latitude": 105.52744
+  }
+]

@@ -1,0 +1,40 @@
+logging:
+  level:
+    org.apache.kafka: OFF
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration
+  main:
+    banner-mode: "off"
+  datasource:
+    url: jdbc:postgresql://localhost:5432/zombies
+    hikari:
+      username: test
+      password: secret
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      retries: 60
+      acks: all
+    consumer:
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: technical-test
+      enable-auto-commit: false
+      max-poll-records: 10000
+    listener:
+      ack-mode: manual_immediate
+      concurrency: 10
+app:
+  kafka:
+    topics:
+      zombieLocations: zombie_locations
+      capturedZombie: captured_zombie

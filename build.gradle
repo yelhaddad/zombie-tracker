@@ -1,0 +1,54 @@
+buildscript {
+    ext {
+        lombokVersion = "1.18.24"
+        pgVersion = "42.5.1"
+        junitJupiterVersion = "5.9.1"
+        mockitoJunitJupiterVersion = "4.8.0"
+        assertJVersion = "3.23.1"
+        springBootVersion = "3.0.0"
+        testcontainersVersion = "1.17.6"
+    }
+}
+
+plugins {
+    id "java"
+    id "org.springframework.boot" version "${springBootVersion}"
+}
+
+
+group = "fr.heetch"
+version = "0.0.1"
+sourceCompatibility = "19"
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/milestone" }
+    maven { url "https://repo.spring.io/snapshot" }
+}
+
+dependencies {
+    // Spring
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
+    implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+
+    // DB
+    annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+    implementation("org.postgresql:postgresql:${pgVersion}")
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+
+    // Kafka
+    implementation("org.springframework.kafka:spring-kafka:${springBootVersion}")
+
+    // Test
+    testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:${junitJupiterVersion}")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:${junitJupiterVersion}")
+    testImplementation("org.mockito:mockito-junit-jupiter:${mockitoJunitJupiterVersion}")
+    testImplementation("org.assertj:assertj-core:${assertJVersion}")
+    testImplementation("org.testcontainers:postgresql:${testcontainersVersion}")
+}
+
+test {
+    useJUnitPlatform()
+    dependsOn "cleanTest"
+}
