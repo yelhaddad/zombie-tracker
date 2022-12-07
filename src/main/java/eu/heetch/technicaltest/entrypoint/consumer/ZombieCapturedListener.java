@@ -19,17 +19,19 @@ public class ZombieCapturedListener {
     private final ObjectMapper objectMapper;
 
     @KafkaListener(topics = "${app.kafka.topics.capturedZombie}")
-    public void consume(String zombieCaptured, Acknowledgment acknowledgment) {
+    public void consume(String zombieCapturedRecord, Acknowledgment acknowledgment) {
+        log.info("Start consuming zombie captured");
+        ZombieCaptured zombieCaptured = map(zombieCapturedRecord);
         try {
-            log.info("Start consuming zombie captured");
-            zombieService.upsertZombieCaptured(map(zombieCaptured));
+            log.info("Consuming zombie captured id : {}", zombieCaptured.getId());
+            zombieService.upsertZombieCaptured(zombieCaptured);
         } catch (Exception e) {
             log.error("Zombies captured listener failed : ", e);
             throw new RuntimeException(e);
         }
 
         acknowledgment.acknowledge();
-        log.info("Zombie captured consumed successfully");
+        log.info("Zombie captured id : {} consumed successfully", zombieCaptured.getId());
     }
 
     private ZombieCaptured map(String zombieCaptured) {

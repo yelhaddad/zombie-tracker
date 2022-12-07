@@ -26,7 +26,7 @@ public class ZombieLocationsListener {
         try {
             if (!zombieLocationRecords.isEmpty()) {
                 log.info("Start consuming zombies locations, size : {}", zombieLocationRecords.size());
-                zombieService.upsertZombieLocations(mapRecords(zombieLocationRecords));
+                zombieService.insertZombieLocations(mapRecords(zombieLocationRecords));
             }
         } catch (Exception e) {
             log.error("Zombie locations listener failed", e);

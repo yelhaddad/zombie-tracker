@@ -35,12 +35,12 @@ class ZombieLocationControllerIntegrationTest {
         String expectedResponse = FileUtils.readFileToString(resource.getFile(), StandardCharsets.UTF_8);
 
         mockMvc.perform(
-                get("/zombie")
-                        .queryParam("longitude", "2.294533")
-                        .queryParam("latitude", "48.85905")
-                        .queryParam("limit", "5")
-        ).andExpect(status().isOk())
-         .andExpect(content().json(expectedResponse));
+                        get("/zombies")
+                                .queryParam("longitude", "2.294533")
+                                .queryParam("latitude", "48.85905")
+                                .queryParam("limit", "5")
+                ).andExpect(status().isOk())
+                .andExpect(content().json(expectedResponse));
     }
 
     @Test
@@ -48,7 +48,7 @@ class ZombieLocationControllerIntegrationTest {
     @Sql(value = "/scripts/clear_table_zombie.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void shouldReturnBadRequestWhenLatitudeIsMissing() throws Exception {
         mockMvc.perform(
-                get("/zombie")
+                get("/zombies")
                         .queryParam("latitude", "2.294533")
                         .queryParam("limit", "5")
         ).andExpect(status().isBadRequest());
@@ -59,9 +59,9 @@ class ZombieLocationControllerIntegrationTest {
     @Sql(value = "/scripts/clear_table_zombie.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void shouldReturnBadRequestWhenLongitudeIsMissing() throws Exception {
         mockMvc.perform(
-                        get("/zombie")
-                                .queryParam("longitude", "2.294533")
-                                .queryParam("limit", "5")
-                ).andExpect(status().isBadRequest());
+                get("/zombies")
+                        .queryParam("longitude", "2.294533")
+                        .queryParam("limit", "5")
+        ).andExpect(status().isBadRequest());
     }
 }

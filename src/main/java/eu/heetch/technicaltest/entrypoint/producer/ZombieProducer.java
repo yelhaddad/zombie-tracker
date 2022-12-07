@@ -43,19 +43,19 @@ public class ZombieProducer {
                     .updatedAt(LocalDateTime.now())
                     .build();
             kafkaTemplate.send(zombieLocationsTopic, zombieId.toString(), objectMapper.writeValueAsString(zombieLocation));
+            ZombieCaptured zombieCaptured;
             if (i%2 == 0) {
-                ZombieCaptured zombieCaptured = ZombieCaptured.builder()
-                     .id(zombieId)
-                     .updatedAt(LocalDateTime.now())
-                     .build();
-                kafkaTemplate.send(zombieCapturedTopic, zombieId.toString(), objectMapper.writeValueAsString(zombieCaptured));
+                zombieCaptured = ZombieCaptured.builder()
+                        .id(zombieId)
+                        .updatedAt(LocalDateTime.now())
+                        .build();
             } else {
-                ZombieCaptured zombieCaptured = ZombieCaptured.builder()
+                zombieCaptured = ZombieCaptured.builder()
                         .id(UUID.randomUUID())
                         .updatedAt(LocalDateTime.now())
                         .build();
-                kafkaTemplate.send(zombieCapturedTopic, zombieId.toString(), objectMapper.writeValueAsString(zombieCaptured));
             }
+            kafkaTemplate.send(zombieCapturedTopic, zombieId.toString(), objectMapper.writeValueAsString(zombieCaptured));
         }
     }
 }

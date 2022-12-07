@@ -10,7 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
+import static java.util.Optional.ofNullable;
 
 @Service
 @AllArgsConstructor
@@ -20,16 +21,23 @@ public class ZombieService {
     private final ZombieRepository zombieRepository;
     private static final int DEFAULT_LIMIT = 10000;
 
-    public void upsertZombieLocations(List<ZombieLocation> zombieLocations) {
+    public void insertZombieLocations(List<ZombieLocation> zombieLocations) {
         zombieRepository.saveAll(mapZombieLocations(zombieLocations));
     }
 
     public void upsertZombieCaptured(ZombieCaptured zombieCaptured) {
-        zombieRepository.save(mapZombieCaptured(zombieCaptured));
+        var optionalZombie = zombieRepository.findById(zombieCaptured.getId());
+        var zombieToSave = optionalZombie.map(zombie -> {
+            zombie.setCaptured(true);
+            zombie.setUpdatedAt(zombieCaptured.getUpdatedAt());
+            return zombie;
+        }).orElse(mapZombieCaptured(zombieCaptured));
+        zombieRepository.save(zombieToSave);
+
     }
 
     public List<ZombieResponse> getNotCapturedZombiesNearTo(Double longitude, Double latitude, Integer limit) {
-        limit = Optional.ofNullable(limit)
+        limit = ofNullable(limit)
                 .filter(ct -> ct > 0)
                 .filter(ct -> ct < DEFAULT_LIMIT)
                 .orElse(DEFAULT_LIMIT);

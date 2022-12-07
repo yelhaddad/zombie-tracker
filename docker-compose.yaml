@@ -1,18 +1,11 @@
 version: '3'
 
-networks:
-  local_network:
-#    driver: "bridge"
-
 services:
   app:
     image: 'technicaltest'
-#    restart: always
     build:
       context: .
       dockerfile: Dockerfile
-#    networks:
-#      - local_network
     ports:
       - "8080:8080"
     depends_on:
@@ -22,12 +15,10 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresql:5432/zombies
       - SPRING_DATASOURCE_USERNAME=test
       - SPRING_DATASOURCE_PASSWORD=secret
-      - SPRING_KAFKA_BOOTSTRAPSERVERS=kafka:9092
+      - SPRING_KAFKA_BOOTSTRAPSERVERS=kafka:9094
 
   postgresql:
     image: postgis/postgis
-#    networks:
-#      - local_network
     environment:
       POSTGRES_DB: zombies
       POSTGRES_USER: test
@@ -39,8 +30,6 @@ services:
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
-#    networks:
-#      - local_network
     environment:
       ALLOW_ANONYMOUS_LOGIN: "yes"
 
@@ -48,8 +37,6 @@ services:
     image: wurstmeister/kafka
     ports:
       - "9092:9092"
-#    networks:
-#      - local_network
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_CREATE_TOPICS: "zombie_locations:10:1,captured_zombie:10:1"
