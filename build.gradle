@@ -16,7 +16,7 @@ plugins {
 }
 
 
-group = "fr.heetch"
+group = "eu.yelhaddad.zombietracker"
 version = "0.0.1"
 sourceCompatibility = "19"
 

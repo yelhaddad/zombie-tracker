@@ -5,4 +5,4 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
-rootProject.name = 'technicaltest'
+rootProject.name = 'zombietracker'

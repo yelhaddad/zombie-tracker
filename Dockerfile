@@ -4,6 +4,6 @@ WORKDIR /home/gradle/src
 RUN gradle clean bootJar --no-daemon
 
 FROM openjdk:19-alpine
-COPY --from=build /home/gradle/src/build/libs/*.jar technicaltest.jar
-CMD java -jar technicaltest.jar
+COPY --from=build /home/gradle/src/build/libs/*.jar zombietracker.jar
+CMD java -jar zombietracker.jar
 EXPOSE 8080
